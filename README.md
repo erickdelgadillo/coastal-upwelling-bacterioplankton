@@ -43,9 +43,12 @@ The final article material was compared with the historical ENVISION working dir
 | Supplementary Figure 1 | Temperature, PAR, chlorophyll-a, salinity, and turbidity profiles | `station3_ctd.mlx`, `station6_ctd.mlx` | `S3_CTD.xlsx`, `S6_CTD.xlsx` |
 | Supplementary Figure 2 | Ammonium, nitrite, nitrate, silicate, and phosphate profiles | `station3_nutrients.mlx`, `station6_nutrients.mlx` | `S3_Metadata.xlsx`, `S6_Metadata.xlsx` |
 
-Station 3 is the offshore station and Station 6 is the coastal station. The four input workbooks are kept next to the live scripts because the historical code reads them by relative filename. Checksums and a more detailed mapping are available in [`live_scripts/temporal/README.md`](live_scripts/temporal/README.md).
-
-Files outside this table are retained as historical or exploratory material and are not claimed to reproduce figures from the article.
+Station 3 is the offshore station and Station 6 is the coastal station. The
+four input workbooks live under the external data root because the historical
+code reads them by relative filename. Checksums and a more detailed mapping are
+available in [`live_scripts/temporal/README.md`](live_scripts/temporal/README.md).
+Files outside this table are retained as historical or exploratory material and
+are not claimed to reproduce figures from the article.
 
 ## Published R workflow
 
@@ -57,9 +60,9 @@ The final R materials were also traced through the historical ENVISION directory
 | `figure2_rda.Rmd` | Final RDA panels B–D for Figure 2 |
 | `correction_2026.Rmd` | Corrected phosphorus and `pstS` ratio analysis from 2026 |
 
-The notebooks and their 19 compact CSV inputs are under [`r_analysis/`](r_analysis/README.md).
-
-Large processed objects remain excluded from Git and are documented there. A complete local copy of the recovered ENVISION workspace is kept under the ignored `local_archive/ENVISION/` directory.
+The notebooks are under [`r_analysis/`](r_analysis/README.md). Their 19 compact
+CSV inputs and three large processed objects are stored together under the
+external data root configured by `COASTAL_UPWELLING_DATA_DIR`.
 
 ## Running the published workflow
 
@@ -67,31 +70,38 @@ Start MATLAB in the repository root and prepare the historical dependency path:
 
 ```matlab
 repoRoot = pwd;
-addpath(fullfile(repoRoot, 'third_party'));
-cd(fullfile(repoRoot, 'live_scripts', 'temporal'));
+paths = coastal_setup('temporal');
+open(fullfile(paths.repo_root, 'live_scripts', 'temporal', 'station3_ctd.mlx'));
 ```
 
-Open and run the four live scripts listed above. They read the included Excel workbooks and export the individual panels as 300 dpi PNG files. Generated PNG files are intentionally ignored by Git.
+Open and run the four live scripts listed above. The setup function reads the
+project-local `.Renviron`, adds `third_party/`, and changes MATLAB's working
+folder to the external input directory. The scripts export individual panels
+as 300 dpi PNG files beside those inputs.
 
 ## Repository structure
 
 ```text
 coastal-upwelling-bacterioplankton/
+├── R/                    # Portable external-data path resolver
 ├── live_scripts/
-│   ├── temporal/         # Published temporal profiles and exact inputs
+│   ├── temporal/         # Published temporal profile scripts
 │   └── longitudinal/     # Additional ENV1–ENV3 transect analyses
 ├── scripts/
 │   ├── figures/          # Other historical figure scripts
 │   └── exploratory/      # Exploratory analyses
-├── r_analysis/           # Selected publication R notebooks and compact inputs
+├── r_analysis/           # Selected publication R notebooks
 ├── third_party/          # External MATLAB utilities and notices
-├── data/                 # Data provenance documentation
+├── coastal_setup.m       # MATLAB external-data setup
+├── DATA.md               # External data layout and configuration
 └── README.md
 ```
 
 ## Data availability
 
-The four compact oceanographic workbooks required by the published MATLAB workflow and the 19 compact CSV inputs used by the selected R notebooks are included.
+All R and MATLAB inputs are stored outside Git under a single data root. Copy
+`.Renviron.example` to `.Renviron` and set `COASTAL_UPWELLING_DATA_DIR` to that
+directory. See [`DATA.md`](DATA.md) for the layout and Windows instructions.
 
 Large processed objects, other raw tables, generated figures, and the full historical working directory remain excluded from Git.
 
@@ -101,7 +111,7 @@ The sequence data cited by the article are available from the European Nucleotid
 - `PRJEB36099` — 18S rRNA gene sequences
 - `PRJEB36728` (`ERS5513557`–`ERS5513582`) — metatranscriptomes
 
-See [`data/README.md`](data/README.md) for provenance and scope notes.
+See [`DATA.md`](DATA.md) for provenance and scope notes.
 
 ## Requirements and validation status
 

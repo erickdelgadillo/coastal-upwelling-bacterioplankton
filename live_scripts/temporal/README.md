@@ -1,8 +1,9 @@
 # Published temporal profile workflow
 
-This directory contains the historical MATLAB Live Scripts and exact input
-workbooks used to generate the environmental profile panels in Supplementary
-Figures 1 and 2 of the associated Frontiers in Marine Science article.
+This directory contains the historical MATLAB Live Scripts used to generate
+the environmental profile panels in Supplementary Figures 1 and 2 of the
+associated Frontiers in Marine Science article. Their exact input workbooks
+are stored under the external `data/matlab/temporal/` directory.
 
 ## Figure mapping
 
@@ -22,12 +23,14 @@ From the repository root in MATLAB:
 
 ```matlab
 repoRoot = pwd;
-addpath(fullfile(repoRoot, 'third_party'));
-cd(fullfile(repoRoot, 'live_scripts', 'temporal'));
+paths = coastal_setup('temporal');
+open(fullfile(paths.repo_root, 'live_scripts', 'temporal', 'station3_ctd.mlx'));
 ```
 
-Open each `.mlx` file and select **Run**. The generated PNG files are written
-to this directory and ignored by Git.
+Open each `.mlx` file and select **Run**. The setup function changes MATLAB's
+working folder to the external temporal input directory, so the historical
+relative filenames continue to resolve unchanged. Generated PNG files are
+written beside the external workbooks.
 
 ## Input checksums
 

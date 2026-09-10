@@ -20,15 +20,16 @@ codegen/
 *.autosave
 .Rhistory
 .RData
+.RDataTmp
 .Ruserdata
+.Renviron
 .DS_Store
 
 # Original working directory retained locally for provenance and recovery
 local_archive/
 
-# Research inputs and generated outputs are not published from this repository
-data/raw/
-data/intermediate/
+# Research inputs live outside this repository
+data/
 results/
 *.xlsx
 *.xls
@@ -39,41 +40,7 @@ r_analysis/Results/
 r_analysis/*_cache/
 r_analysis/*_files/
 r_analysis/*.html
-
-# Large or unrecovered R inputs must remain external to Git history
-r_analysis/Calculations/*.rds
-r_analysis/Calculations/*.feather
-r_analysis/Calculations/uc099_debris.archaea_bacteria.count_tpm_clr_\(2022\).tsv
-
-# Compact inputs required by the selected R notebooks
-!r_analysis/Calculations/ENVISION_CDT.csv
-!r_analysis/Calculations/Envision_Labels_2022.csv
-!r_analysis/Calculations/Euk_Both_fractions_ASV_Subsampled.csv
-!r_analysis/Calculations/Final_complete_taxonomy.csv
-!r_analysis/Calculations/Metadata_log2.csv
-!r_analysis/Calculations/Para_Sandra_Environmental_and_genes_ratios_2026_SMG.csv
-!r_analysis/Calculations/Prok_ASV_Subsampled.csv
-!r_analysis/Calculations/Seasons_tags.csv
-!r_analysis/Calculations/Seasons_tags_nodays.csv
-!r_analysis/Calculations/env_flags.csv
-!r_analysis/Calculations/lat_and_long.csv
-!r_analysis/Calculations/metadata_ENV_field.csv
-!r_analysis/Calculations/order_list_Oct_2021.csv
-!r_analysis/Calculations/order_list_Oct_2022.csv
-!r_analysis/Calculations/proteins_profiles_definitive_list_2022.csv
-!r_analysis/Calculations/sample_names_ENV_field.csv
-!r_analysis/Calculations/unreal_CN_gene.csv
-!r_analysis/Calculations/unreal_gene.csv
-!r_analysis/Calculations/unreal_ratio_geneCNP.csv
-
-# Exact ENVISION inputs required by the published temporal live scripts
-!live_scripts/temporal/S3_CTD.xlsx
-!live_scripts/temporal/S3_Metadata.xlsx
-!live_scripts/temporal/S6_CTD.xlsx
-!live_scripts/temporal/S6_Metadata.xlsx
+r_analysis/*.png
 
 # Panels exported by the temporal live scripts
 live_scripts/temporal/*.png
-
-# Keep documentation that explains how to obtain or reconstruct the data
-!data/README.md

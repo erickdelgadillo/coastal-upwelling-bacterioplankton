@@ -1,0 +1,2 @@
+# Copy this file to .Renviron and set the absolute path to the local dataset.
+COASTAL_UPWELLING_DATA_DIR=/path/to/coastal-upwelling-bacterioplankton/data

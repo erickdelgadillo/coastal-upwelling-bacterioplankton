@@ -5,6 +5,8 @@ date: "2026-01-15"
 ---
 
 ```{r setup, include=FALSE}
+source(if (file.exists("../R/paths.R")) "../R/paths.R" else "R/paths.R")
+
 library(dplyr)
 library(ggplot2)
 library(ggh4x)
@@ -12,11 +14,11 @@ library(tidyr)
 library(viridis)
 
 dir.create("./Results/Figures", recursive = TRUE, showWarnings = FALSE)
-Seasons_tags <- read.csv("./Calculations/Seasons_tags.csv", sep = ";")
+Seasons_tags <- read.csv(coastal_data_file("r", "Calculations", "Seasons_tags.csv"), sep = ";")
 ```
 
 ```{r, fig.height=10, fig.width=20}
-Environmental_and_genes_ratios <- read.csv(  "./Calculations/Para_Sandra_Environmental_and_genes_ratios_2026_SMG.csv", sep = ";") %>%
+Environmental_and_genes_ratios <- read.csv(  coastal_data_file("r", "Calculations", "Para_Sandra_Environmental_and_genes_ratios_2026_SMG.csv"), sep = ";") %>%
     dplyr::select(1,8,24)%>%
     separate(sample, c( "Season", "day", "Station"), sep="_", remove=T)  %>%
     unite(sample, Season, Station, day, sep="_", remove=T) %>%

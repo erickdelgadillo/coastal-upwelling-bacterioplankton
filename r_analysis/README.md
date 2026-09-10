@@ -18,12 +18,13 @@ plots, and unrelated INTERES analyses were deliberately excluded. The
 scientific calculations are preserved; only output paths and minimal setup
 code were made portable.
 
-## Included inputs
+## External inputs
 
-The `Calculations/` directory contains the 19 compact CSV inputs referenced by
-the selected notebooks. These include CTD and environmental metadata, sample
-labels, ASV summaries, taxonomic labels, protein-profile annotations, plotting
-helpers, and the corrected 2026 phosphorus table.
+The external `data/r/Calculations/` directory contains the 19 compact CSV
+inputs referenced by the selected notebooks. These include CTD and
+environmental metadata, sample labels, ASV summaries, taxonomic labels,
+protein-profile annotations, plotting helpers, and the corrected 2026
+phosphorus table.
 
 Three large inputs required by the full main workflow are not committed:
 
@@ -31,16 +32,16 @@ Three large inputs required by the full main workflow are not committed:
 - `envision_general_metabolism_june2022.feather` (about 998 MB)
 - `uc099_debris.archaea_bacteria.count_tpm_clr_(2022).tsv` (about 9.19 GB)
 
-All three are available in the local, Git-ignored historical workspace under
-`../local_archive/ENVISION/Calculations/`. They exceed the sensible scope of a
-normal Git repository and should eventually be deposited in a research-data
-archive or documented external storage rather than committed to Git history.
-A fresh GitHub clone does not include them.
+All three are available under the same external `data/r/Calculations/`
+directory. They exceed the sensible scope of a normal Git repository and
+should eventually be deposited in a research-data archive rather than
+committed to Git history. A fresh GitHub clone does not include any inputs.
 
 ## Running the notebooks
 
-Start R from the repository root and switch to this directory so the relative
-paths resolve correctly:
+Copy `.Renviron.example` to `.Renviron` and configure
+`COASTAL_UPWELLING_DATA_DIR`. Then start R from the repository root and switch
+to this directory:
 
 ```r
 setwd("r_analysis")
@@ -53,7 +54,10 @@ Use this order:
    the main notebook.
 3. Run `correction_2026.Rmd` independently for the corrected phosphorus plots.
 
-Generated files are written under `Results/Figures/` and are ignored by Git.
+Input paths are resolved by `R/paths.R`. Generated files are written under
+`Results/Figures/`; a few historical chunks write PNG files directly under
+`r_analysis/`. Both locations are ignored by Git.
+`r_analysis/`. Both locations are ignored by Git.
 The main notebook lists its package dependencies in the opening setup chunk;
 they include tidyverse components, `vegan`, `CoDaSeq`, `ggord`, `ggh4x`,
 `ComplexHeatmap`, Bioconductor packages, and several plotting extensions.
@@ -61,8 +65,8 @@ they include tidyverse components, `vegan`, `CoDaSeq`, `ggord`, `ggh4x`,
 ## Validation status
 
 The three selected notebooks have valid R syntax after extracting their code
-chunks, all committed CSV inputs are readable, and active paths no longer
-point to a personal Windows directory. The correction notebook was executed
+chunks, all external inputs are readable, and active paths no longer point to
+a personal Windows directory. The correction notebook was executed
 successfully with R 4.3.3 and generated both expected PNG files; it emitted
 only non-fatal warnings from newer plotting-package versions. The restored
 historical main workflow completed end to end using the local archive, and its
