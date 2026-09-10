@@ -3,6 +3,8 @@ This notebook contains the final RDA panels used for Figure 2. Run it after
 tables and objects created there.
 
 ```{r setup, include=FALSE}
+source(if (file.exists("../R/paths.R")) "../R/paths.R" else "R/paths.R")
+
 dir.create("./Results/Figures", recursive = TRUE, showWarnings = FALSE)
 ```
 

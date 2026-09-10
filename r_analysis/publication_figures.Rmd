@@ -12,6 +12,8 @@ Chache = True
 # remove.packages("feather")
 # library(feather)
 
+source(if (file.exists("../R/paths.R")) "../R/paths.R" else "R/paths.R")
+
 require(RColorBrewer); sprintf("RColorBrewer: %s", packageVersion("RColorBrewer"))
 require(devtools); sprintf("devtools: %s", packageVersion("devtools"))
 require(circlize); sprintf("circlize: %s", packageVersion("circlize"))
@@ -148,49 +150,49 @@ my.colors_Eukaryotes <- c(# Alveolata
 
 ```{r chunk_003, include=FALSE}
 lat_and_long <- read.csv(
-  "./Calculations/lat_and_long.csv", sep = ";")
+  coastal_data_file("r", "Calculations", "lat_and_long.csv"), sep = ";")
 
 Metadata_ENVISION <- read.csv(
-  "./Calculations/metadata_ENV_field.csv", sep = ";") %>%
+  coastal_data_file("r", "Calculations", "metadata_ENV_field.csv"), sep = ";") %>%
   separate(sample, c("cruise", "day", "station"), sep="_", remove=F) %>%
   join (lat_and_long, by="station")
 
-ENVISION_CDT <- read.csv("./Calculations/ENVISION_CDT.csv", sep = ";")
+ENVISION_CDT <- read.csv(coastal_data_file("r", "Calculations", "ENVISION_CDT.csv"), sep = ";")
 
-Seasons_tags <- read.csv("./Calculations/Seasons_tags.csv", sep = ";")
+Seasons_tags <- read.csv(coastal_data_file("r", "Calculations", "Seasons_tags.csv"), sep = ";")
 
 profile_protein_list_allgenes <- read.csv(
-  "./Calculations/proteins_profiles_definitive_list_2022.csv", sep = ";")
+  coastal_data_file("r", "Calculations", "proteins_profiles_definitive_list_2022.csv"), sep = ";")
 
 Final_complete_taxonomy <- read.csv(
-  "./Calculations/Final_complete_taxonomy.csv", sep = ";")
+  coastal_data_file("r", "Calculations", "Final_complete_taxonomy.csv"), sep = ";")
 
 order_list_2021 <- read.csv(
-  "./Calculations/order_list_Oct_2021.csv", sep = ";") # Orders
+  coastal_data_file("r", "Calculations", "order_list_Oct_2021.csv"), sep = ";") # Orders
 
 Seasons_tags_nodays <- read.csv(
-  "./Calculations/Seasons_tags_nodays.csv", sep = ";")
+  coastal_data_file("r", "Calculations", "Seasons_tags_nodays.csv"), sep = ";")
 
 sample_names_ENV_field <- read.csv(
-  "./Calculations/sample_names_ENV_field.csv", sep = ",")
+  coastal_data_file("r", "Calculations", "sample_names_ENV_field.csv"), sep = ",")
 
 
 ENV_field_generalmetabolism_tax <- readRDS(
-  "./Calculations/ENV_field_generalmetabolism_tax.rds")
+  coastal_data_file("r", "Calculations", "ENV_field_generalmetabolism_tax.rds"))
 
 Metadata_log <- read.csv (
-  "./Calculations/Metadata_log2.csv", sep=";") %>%
+  coastal_data_file("r", "Calculations", "Metadata_log2.csv"), sep=";") %>%
   tibble::column_to_rownames('sample')
 
 env_flags_myrda <- read.csv(
-  "./Calculations/env_flags.csv") %>%
+  coastal_data_file("r", "Calculations", "env_flags.csv")) %>%
   tibble::column_to_rownames('sample')
 
 
 
-Envision_Labels_2022 <- read.csv("./Calculations/Envision_Labels_2022.csv")
+Envision_Labels_2022 <- read.csv(coastal_data_file("r", "Calculations", "Envision_Labels_2022.csv"))
 
-uc099_debris.archaea_bacteria.count_tpm_clr <- read_tsv ("./Calculations/uc099_debris.archaea_bacteria.count_tpm_clr_(2022).tsv")
+uc099_debris.archaea_bacteria.count_tpm_clr <- read_tsv (coastal_data_file("r", "Calculations", "uc099_debris.archaea_bacteria.count_tpm_clr_(2022).tsv"))
 ```
 
 
@@ -199,13 +201,13 @@ uc099_debris.archaea_bacteria.count_tpm_clr <- read_tsv ("./Calculations/uc099_d
 
 ```{r chunk_004, include=FALSE}
 ENV_field_generalmetabolism_tax <- ENV_field_generalmetabolism_tax %>%
-    join (Final_complete_taxonomy, by="taxon") %>%
+    dplyr::left_join(Final_complete_taxonomy, by="taxon") %>%
 dplyr::select(sample, Our_Taxonomy, tpm)
 ```
 
 ```{r chunk_005}
 #  Vanessa Dataset
-# Euk_ASVs <- read.csv("./Calculations/Eukariotes_18S_ASV_Tab.csv", sep=";")
+# Euk_ASVs <- read.csv(coastal_data_file("r", "Calculations", "Eukariotes_18S_ASV_Tab.csv"), sep=";")
 #
 # Euk_ASVs_long <- pivot_longer(Euk_ASVs, cols=2:18, names_to = "order", values_to = "ASV") #Vanessa Dataset
 #
@@ -213,18 +215,18 @@ dplyr::select(sample, Our_Taxonomy, tpm)
 
 
 #  Vanessa Dataset
-# Bac_ASVs<- read.csv("./Calculations/Bacteria_16S_ASV_Tab.csv", sep=";")
+# Bac_ASVs<- read.csv(coastal_data_file("r", "Calculations", "Bacteria_16S_ASV_Tab.csv"), sep=";")
 #
 # Bac_ASVs_long <- pivot_longer(Bac_ASVs, cols=2:16, names_to = "order", values_to = "ASV") #Vanessa Dataset
 
 #
-Bac_ASVs <- read.csv("./Calculations/Prok_ASV_Subsampled.csv", sep=",") %>%
+Bac_ASVs <- read.csv(coastal_data_file("r", "Calculations", "Prok_ASV_Subsampled.csv"), sep=",") %>%
   dplyr::select(-X)
 colnames(Bac_ASVs)[colnames(Bac_ASVs) == "Cruise"] <- "Season"
 colnames(Bac_ASVs)[colnames(Bac_ASVs) == "Day"] <- "day"
 colnames(Bac_ASVs)[colnames(Bac_ASVs) == "Our_Taxonomy"] <- "order"
 #
-Euk_ASVs <- read.csv("./Calculations/Euk_Both_fractions_ASV_Subsampled.csv", sep=",")%>%
+Euk_ASVs <- read.csv(coastal_data_file("r", "Calculations", "Euk_Both_fractions_ASV_Subsampled.csv"), sep=",")%>%
   dplyr::select(-X)
 colnames(Euk_ASVs)[colnames(Euk_ASVs) == "Cruise"] <- "Season"
 colnames(Euk_ASVs)[colnames(Euk_ASVs) == "Day"] <- "day"
@@ -1248,7 +1250,7 @@ ENV_field <- uc099_debris.archaea_bacteria.count_tpm_clr %>%
 # Import Definitive-ENVISION dataset June 2022
 # data set (26/05/2022)
 
-env <- "./Calculations/envision_general_metabolism_june2022.feather"
+env <- coastal_data_file("r", "Calculations", "envision_general_metabolism_june2022.feather")
 env_general_feater <- read_feather(env) %>%
   filter(!is.na(superkingdom),superkingdom != 'Eukaryota', superkingdom != 'Viruses',superkingdom != 'Archaea') %>%
     mutate(superkingdom = ifelse(is.na(superkingdom) | superkingdom == '', 'No
@@ -2627,7 +2629,7 @@ Gene_abundance$subcategory = swr(Gene_abundance$subcategory)
 
 ```{r chunk_060, fig.height=8, fig.width=12}
 library(ggh4x)
-unreal_gene <- read.csv("./Calculations/unreal_CN_gene.csv", sep = ";")
+unreal_gene <- read.csv(coastal_data_file("r", "Calculations", "unreal_CN_gene.csv"), sep = ";")
 
 Carbon_Gene_abundance <- Gene_abundance %>%
   filter(category=="Carbon metabolism")
@@ -2777,7 +2779,7 @@ dev.off()
 
 
 ```{r chunk_064, fig.height=8, fig.width=12}
-unreal_gene <- read.csv("./Calculations/unreal_gene.csv", sep = ";")
+unreal_gene <- read.csv(coastal_data_file("r", "Calculations", "unreal_gene.csv"), sep = ";")
 
 Sulfur_Gene_abundance <- Gene_abundance %>%
   filter(category=="Sulfur metabolism")
@@ -3485,7 +3487,7 @@ ggsave("./Results/Figures/Supplementary figure 3.7.png",
 
 ```{r chunk_079}
 order_list_2021 <- read.csv(
-  "./Calculations/order_list_Oct_2022.csv", sep = ",") # Orders
+  coastal_data_file("r", "Calculations", "order_list_Oct_2022.csv"), sep = ",") # Orders
 
 
 Order_proportion_mean_cruise_station <- Order_proportion_by_sample %>%
@@ -3779,7 +3781,7 @@ mean_by_days <- Gene_abundance %>%
 
 ```{r chunk_086, fig.height=10, fig.width=20}
 
-unreal_ratio_gene <- read.csv("./Calculations/unreal_ratio_geneCNP.csv", sep = ",")
+unreal_ratio_gene <- read.csv(coastal_data_file("r", "Calculations", "unreal_ratio_geneCNP.csv"), sep = ",")
 
 
 Carbon_metabolism_ratio <- Genes_abundance_ratio_plot %>%
