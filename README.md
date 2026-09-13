@@ -1,4 +1,4 @@
-# Coastal upwelling systems
+# Coastal upwelling systems (metatranscriptomics)
 
 ![R](https://img.shields.io/badge/R-analysis-276DC3?logo=r&logoColor=white)
 ![MATLAB](https://img.shields.io/badge/MATLAB-analysis-orange)
