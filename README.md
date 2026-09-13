@@ -1,4 +1,4 @@
-# Coastal upwelling metatranscriptomics
+# Coastal upwelling systems (metatranscriptomics)
 
 ![R](https://img.shields.io/badge/R-analysis-276DC3?logo=r&logoColor=white)
 ![Metatranscriptomics](https://img.shields.io/badge/metatranscriptomics-microbial%20ecology-green)
