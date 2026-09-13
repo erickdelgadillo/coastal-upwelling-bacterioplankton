@@ -1,23 +1,23 @@
 # Coastal upwelling systems (metatranscriptomics)
 
 ![R](https://img.shields.io/badge/R-analysis-276DC3?logo=r&logoColor=white)
-![MATLAB](https://img.shields.io/badge/MATLAB-analysis-orange)
-![Metatranscriptomics](https://img.shields.io/badge/Metatranscriptomics-microbial%20ecology-green)
+![Metatranscriptomics](https://img.shields.io/badge/metatranscriptomics-microbial%20ecology-green)
 ![Status](https://img.shields.io/badge/status-curated%20publication%20workflow-blue)
 
-> Reproducible analysis workflows for studying bacterioplankton functional dynamics across contrasting coastal upwelling conditions.
+Reproducible R analyses for studying bacterioplankton functional dynamics
+across contrasting coastal upwelling conditions.
 
-This repository contains the curated MATLAB and R workflows associated with the study **“Coastal upwelling systems as dynamic mosaics of bacterioplankton functional specialization.”**
+This repository contains the microbial-community, metatranscriptomic,
+gene-abundance, and environmental association analyses for the study
+**“Coastal upwelling systems as dynamic mosaics of bacterioplankton functional
+specialization.”**
 
-The project investigates how environmental variability across a coastal upwelling system is associated with changes in microbial community structure and functional activity. The analyses integrate oceanographic conditions, nutrient distributions, microbial community data, metatranscriptomic information, and gene-abundance patterns across contrasting coastal and offshore environments.
-
-The repository preserves and documents the computational workflows used to generate major and supplementary figures from the study, together with the analyses associated with the 2026 correction. Historical scripts have been curated to distinguish publication workflows from exploratory material and to improve transparency and reproducibility.
+The MATLAB oceanography workflows and their CTD and nutrient datasets are now
+maintained separately in
+[`coastal-upwelling-oceanography`](https://github.com/erickdelgadillo/coastal-upwelling-oceanography).
 
 ## Scientific scope
 
-The analyses represented here include:
-
-- Oceanographic and nutrient profiles across coastal and offshore stations
 - Bacterioplankton community and functional patterns
 - Environmental–community relationships
 - Metatranscriptomic analyses
@@ -25,34 +25,9 @@ The analyses represented here include:
 - Redundancy analysis (RDA)
 - Reproduction of published and corrected figures
 
-The repository combines MATLAB workflows originally used for environmental profiles with R workflows used for community, functional, and multivariate analyses.
+## Publication workflows
 
-## Associated publications
-
-- Original article: Delgadillo-Nuño et al. (2024), *Frontiers in Marine Science*, <https://doi.org/10.3389/fmars.2023.1259783>
-- Correction: Delgadillo-Nuño et al. (2026), *Frontiers in Marine Science*, <https://doi.org/10.3389/fmars.2026.1886620>
-
-The 2026 correction notice replaces Supplementary Figures 3 and 5. The MATLAB workflows documented here correspond to Supplementary Figures 1 and 2 and are not identified as affected by that correction.
-
-## Published MATLAB workflow
-
-The final article material was compared with the historical ENVISION working directory to identify the scripts that generated the published CTD and nutrient profile panels.
-
-| Published figure | Content | Live scripts | Input workbooks |
-| --- | --- | --- | --- |
-| Supplementary Figure 1 | Temperature, PAR, chlorophyll-a, salinity, and turbidity profiles | `station3_ctd.mlx`, `station6_ctd.mlx` | `S3_CTD.xlsx`, `S6_CTD.xlsx` |
-| Supplementary Figure 2 | Ammonium, nitrite, nitrate, silicate, and phosphate profiles | `station3_nutrients.mlx`, `station6_nutrients.mlx` | `S3_Metadata.xlsx`, `S6_Metadata.xlsx` |
-
-Station 3 is the offshore station and Station 6 is the coastal station. The
-four input workbooks live under the external data root because the historical
-code reads them by relative filename. Checksums and a more detailed mapping are
-available in [`live_scripts/temporal/README.md`](live_scripts/temporal/README.md).
-Files outside this table are retained as historical or exploratory material and
-are not claimed to reproduce figures from the article.
-
-## Published R workflow
-
-The final R materials were also traced through the historical ENVISION directory. Three notebooks are retained:
+Three curated R Markdown notebooks are retained under `r_analysis/`:
 
 | Notebook | Scope |
 | --- | --- |
@@ -60,95 +35,77 @@ The final R materials were also traced through the historical ENVISION directory
 | `figure2_rda.Rmd` | Final RDA panels B–D for Figure 2 |
 | `correction_2026.Rmd` | Corrected phosphorus and `pstS` ratio analysis from 2026 |
 
-The notebooks are under [`r_analysis/`](r_analysis/README.md). Their 19 compact
-CSV inputs and three large processed objects are stored together under the
-external data root configured by `COASTAL_UPWELLING_DATA_DIR`.
+The notebooks were selected by comparing the historical ENVISION working
+directory with the final article materials. Older copies, exploratory plots,
+and unrelated analyses were excluded.
 
-## Running the published workflow
+## Run
 
-Start MATLAB in the repository root and prepare the historical dependency path:
+The input data are stored outside Git. Copy `.Renviron.example` to `.Renviron`
+and set `COASTAL_UPWELLING_DATA_DIR` to the local data root. Then start R from
+the repository root and run the notebooks in this order:
 
-```matlab
-repoRoot = pwd;
-paths = coastal_setup('temporal');
-open(fullfile(paths.repo_root, 'live_scripts', 'temporal', 'station3_ctd.mlx'));
-```
+1. `r_analysis/publication_figures.Rmd`
+2. `r_analysis/figure2_rda.Rmd` in the same R session
+3. `r_analysis/correction_2026.Rmd` independently
 
-Open and run the four live scripts listed above. The setup function reads the
-project-local `.Renviron`, adds `third_party/`, and changes MATLAB's working
-folder to the external input directory. The scripts export individual panels
-as 300 dpi PNG files beside those inputs.
+`R/paths.R` resolves the configured data root and keeps the active notebooks
+free of machine-specific paths.
 
 ## Repository structure
 
 ```text
-coastal-upwelling-bacterioplankton/
-├── R/                    # Portable external-data path resolver
-├── live_scripts/
-│   ├── temporal/         # Published temporal profile scripts
-│   └── longitudinal/     # Additional ENV1–ENV3 transect analyses
-├── scripts/
-│   ├── figures/          # Other historical figure scripts
-│   └── exploratory/      # Exploratory analyses
-├── r_analysis/           # Selected publication R notebooks
-├── third_party/          # External MATLAB utilities and notices
-├── coastal_setup.m       # MATLAB external-data setup
-├── DATA.md               # External data layout and configuration
+coastal-upwelling-metat/
+├── R/
+│   └── paths.R                 # Portable external-data path resolver
+├── r_analysis/
+│   ├── publication_figures.Rmd # Main publication workflow
+│   ├── figure2_rda.Rmd         # Final RDA panels
+│   ├── correction_2026.Rmd     # Corrected 2026 analysis
+│   └── README.md
+├── .Renviron.example
+├── DATA.md                     # Input layout and provenance
 └── README.md
 ```
 
 ## Data availability
 
-All R and MATLAB inputs are stored outside Git under a single data root. Copy
-`.Renviron.example` to `.Renviron` and set `COASTAL_UPWELLING_DATA_DIR` to that
-directory. See [`DATA.md`](DATA.md) for the layout and Windows instructions.
+The external `data/r/Calculations/` directory contains 19 compact CSV inputs
+and three large processed objects. The large files range from approximately
+132 MB to 9.19 GB and are intentionally excluded from Git history. See
+[`DATA.md`](DATA.md) for the full inventory and configuration details.
 
-Large processed objects, other raw tables, generated figures, and the full historical working directory remain excluded from Git.
-
-The sequence data cited by the article are available from the European Nucleotide Archive under:
+Sequence data cited by the article are available from the European Nucleotide
+Archive:
 
 - `PRJEB36188` — 16S rRNA gene sequences
 - `PRJEB36099` — 18S rRNA gene sequences
 - `PRJEB36728` (`ERS5513557`–`ERS5513582`) — metatranscriptomes
 
-See [`DATA.md`](DATA.md) for provenance and scope notes.
+## Validation status
 
-## Requirements and validation status
+The three selected notebooks have valid R syntax after extracting their code
+chunks. The correction notebook was executed successfully with R 4.3.3. The
+restored historical main workflow completed end to end using the recovered
+local inputs, and the RDA workflow completed a functional validation with a
+reduced permutation count. Its production default remains 999.
 
-The published MATLAB live scripts use `xlsread`, `gridfit`, and `exportgraphics`. `gridfit` is retained under `third_party/` with its original attribution.
+## Associated publications
 
-The R package requirements are listed in [`r_analysis/README.md`](r_analysis/README.md) and in the setup chunk of the main notebook.
-
-The selected live scripts match the historical files byte for byte, their input schemas were inspected, and their output names and panel contents were matched to the final supplementary figures.
-
-End-to-end MATLAB execution has not yet been repeated because MATLAB was not installed in the curation environment used for repository reconstruction.
-
-The selected R notebooks have been syntax-checked, the 2026 correction notebook was rerun successfully, and the restored historical main workflow completed end to end with the recovered local inputs. The RDA workflow was also validated with a reduced permutation count; its production default remains 999.
+- Delgadillo-Nuño et al. (2024), *Frontiers in Marine Science*,
+  <https://doi.org/10.3389/fmars.2023.1259783>
+- Correction (2026), *Frontiers in Marine Science*,
+  <https://doi.org/10.3389/fmars.2026.1886620>
 
 ## Reproducibility scope
 
-This repository is a curated reconstruction of the computational workflows associated with the published study.
-
-Its purpose is to:
-
-- Preserve the analysis code used in the publication
-- Document the relationship between scripts, inputs, and published figures
-- Separate final publication workflows from exploratory analyses
-- Make the available analyses easier to inspect and reproduce
-- Preserve provenance for historical data and computational material
-
-Not all historical intermediate files are included, and the repository does not claim complete end-to-end reproducibility for workflows that depend on unavailable or excluded data.
-
-## Citation
-
-If you use material from this repository, please cite the associated publication:
-
-**Delgadillo-Nuño E. et al. (2024).** Coastal upwelling systems as dynamic mosaics of bacterioplankton functional specialization. *Frontiers in Marine Science*.
-
-See the associated 2026 correction for the revised supplementary analyses.
+This repository preserves the final available R analysis workflows and their
+provenance. It does not include raw sequence data, large processed objects, or
+the MATLAB oceanography workflow. Those materials are referenced above or
+maintained in their dedicated repository.
 
 ## Author
 
 **Erick Delgadillo-Nuño**
 
-Marine microbial ecology · Metatranscriptomics · R · MATLAB · Reproducible scientific workflows
+Marine microbial ecology · Metatranscriptomics · R · Reproducible scientific workflows

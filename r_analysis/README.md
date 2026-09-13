@@ -57,7 +57,6 @@ Use this order:
 Input paths are resolved by `R/paths.R`. Generated files are written under
 `Results/Figures/`; a few historical chunks write PNG files directly under
 `r_analysis/`. Both locations are ignored by Git.
-`r_analysis/`. Both locations are ignored by Git.
 The main notebook lists its package dependencies in the opening setup chunk;
 they include tidyverse components, `vegan`, `CoDaSeq`, `ggord`, `ggh4x`,
 `ComplexHeatmap`, Bioconductor packages, and several plotting extensions.
