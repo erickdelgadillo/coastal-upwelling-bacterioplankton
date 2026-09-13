@@ -1,38 +1,42 @@
 # External data
 
-Research inputs are stored outside the Git repository. On this workstation the
-data root is:
+The R analysis inputs are stored outside the Git repository. On this
+workstation, the shared data root is:
 
 ```text
-/home/erick/Data/ProjectsData/coastal-upwelling-bacterioplankton/data
+/mnt/data/ProjectsData/coastal-upwelling-bacterioplankton/data
 ```
 
-The project-local `.Renviron` sets `COASTAL_UPWELLING_DATA_DIR` to that path and
-is ignored by Git. On another computer, copy `.Renviron.example` to `.Renviron`
-and set the absolute path. A Windows example is:
+The project-local `.Renviron` sets `COASTAL_UPWELLING_DATA_DIR` to that path
+and is ignored by Git. On another computer, copy `.Renviron.example` to
+`.Renviron` and set the absolute path.
 
-```text
-COASTAL_UPWELLING_DATA_DIR=D:/ProjectsData/coastal-upwelling-bacterioplankton/data
-```
-
-## Layout
+## Required layout
 
 ```text
 data/
-├── r/Calculations/       # 19 compact tables and three large R inputs
-└── matlab/
-    ├── temporal/         # Published and exploratory temporal workbooks
-    ├── longitudinal/     # ENV1–ENV3 transect workbooks
-    ├── exploratory/      # General temporal metadata
-    └── figures/          # Inputs for the plain MATLAB figure scripts
+└── r/
+    └── Calculations/    # Publication-ready tables and processed R objects
 ```
 
-R notebooks resolve files through `R/paths.R`. For MATLAB, start in the Git
-repository and call `coastal_setup` with `temporal`, `longitudinal`,
-`exploratory`, or `figures`. The historical Live Scripts read their workbooks
-by relative filename, so the setup function changes MATLAB's working directory
-to the selected external input folder.
+`R/paths.R` resolves the external root. The selected notebooks read 19 compact
+CSV inputs from `data/r/Calculations/`, including environmental metadata,
+sample labels, ASV summaries, taxonomic labels, protein-profile annotations,
+plotting helpers, and the corrected 2026 phosphorus table.
 
-The inspected tables contain oceanographic and molecular observations and no
-personal contact information. Sequence datasets cited in the publication are
-available from ENA under `PRJEB36188`, `PRJEB36099`, and `PRJEB36728`.
+Three large inputs required by the full main workflow remain external:
+
+- `ENV_field_generalmetabolism_tax.rds` (approximately 132 MB)
+- `envision_general_metabolism_june2022.feather` (approximately 998 MB)
+- `uc099_debris.archaea_bacteria.count_tpm_clr_(2022).tsv` (approximately 9.19 GB)
+
+These files are too large for normal Git history and should be deposited in a
+research-data archive if they are distributed publicly.
+
+The MATLAB input workbooks formerly stored below this shared data root were
+moved, without modification, to the dedicated
+[`coastal-upwelling-oceanography`](https://github.com/erickdelgadillo/coastal-upwelling-oceanography)
+repository. That repository records their SHA-256 checksums and provenance.
+
+The inspected inputs contain environmental and molecular observations and no
+personal contact information.

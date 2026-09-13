@@ -1,23 +1,4 @@
-# MATLAB autosave and backup files
-*.asv
-*.m~
-
-# Generated MEX binaries
-*.mex*
-
-# MATLAB and Simulink generated directories
-slprj/
-sccprj/
-codegen/
-
-# Simulink generated files
-*.slxc
-*.mdl.r*
-*.slx.r*
-
-# Local preferences and temporary files
-*.prj
-*.autosave
+# R session and local configuration files
 .Rhistory
 .RData
 .RDataTmp
@@ -25,22 +6,14 @@ codegen/
 .Renviron
 .DS_Store
 
-# Original working directory retained locally for provenance and recovery
-local_archive/
-
-# Research inputs live outside this repository
+# Research inputs and generated results
 data/
 results/
-*.xlsx
-*.xls
 *.csv
 
-# R Markdown caches and generated ENVISION figures
+# R Markdown caches and generated figures
 r_analysis/Results/
 r_analysis/*_cache/
 r_analysis/*_files/
 r_analysis/*.html
 r_analysis/*.png
-
-# Panels exported by the temporal live scripts
-live_scripts/temporal/*.png

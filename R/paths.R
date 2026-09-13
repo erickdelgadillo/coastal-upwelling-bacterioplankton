@@ -4,7 +4,7 @@ coastal_project_dir <- function() {
   candidates <- unique(c(working_dir, dirname(working_dir)))
   matches <- candidates[
     dir.exists(file.path(candidates, "r_analysis")) &
-      dir.exists(file.path(candidates, "live_scripts"))
+      file.exists(file.path(candidates, "R", "paths.R"))
   ]
 
   if (!length(matches)) {
